@@ -15,3 +15,11 @@ To create a new window in tmux:
 To go to the next window in tmux:
 
     <tmux-prefix> + n
+
+To balance panes into equal columns:
+
+    <tmux-prefix> + <alt + 1>
+
+To balance panes into equal rows:
+
+    <tmux-prefix> + <alt + 2>
