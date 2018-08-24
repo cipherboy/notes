@@ -17,3 +17,9 @@ To remove the first `<n>` arguments from `$@`:
     function do_shift() {
         shift
     }
+
+To move through the history:
+
+    <up arrow> or <ctrl> + p -- backwards
+    <down arrow> or <ctrl> + n -- forward
+    <ctrl> + r -- reverse search
