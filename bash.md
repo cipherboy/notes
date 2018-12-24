@@ -23,3 +23,7 @@ To move through the history:
     <up arrow> or <ctrl> + p -- backwards
     <down arrow> or <ctrl> + n -- forward
     <ctrl> + r -- reverse search
+
+To echo an escape code:
+
+    echo -e "\e[<code>m"
