@@ -27,3 +27,7 @@ To move through the history:
 To echo an escape code:
 
     echo -e "\e[<code>m"
+
+To read into an array:
+
+    mapfile -t VAR_NAME < <(cmd)
