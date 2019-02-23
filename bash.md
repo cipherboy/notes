@@ -31,3 +31,11 @@ To echo an escape code:
 To read into an array:
 
     mapfile -t VAR_NAME < <(cmd)
+
+The length of an array:
+
+    ${#array[@]}
+
+The length of a string:
+
+    ${#string}
