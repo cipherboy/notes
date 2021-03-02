@@ -18,7 +18,7 @@
 
     fedpkg copr-build freeradius-server --nowait
 
-4. Commit changes.
+4. Commit changes & push.
 
 5. Generate a Koji build:
 
