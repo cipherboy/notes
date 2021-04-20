@@ -14,3 +14,9 @@ Move based on words:
 
     b/B -- back a word
     w/W -- forward a word
+
+To deal with panes (separate buffers):
+
+    CTRL+W CTRL+X -- swap panes
+    CTRL+W h/j/k/l or left/down/up/right -- move cursor between panes
+    :b# -- go back to last buffer (e.g., directory listing -> file -> back to dir listing)
