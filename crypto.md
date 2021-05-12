@@ -100,7 +100,7 @@ Requires strictly unique nonces be used each time. AEAD.
 Nonce-reuse resistant GCM. AEAD. Preferred solution for new work going forward
 (if primitive work is required).
 
-## RSA
+## RSA: Rivest Shamir Adleman
 
  - `p`, `q`: two randomly generated primes,
  - `e`: an encryption exponent, usually 65537 (formerly 3),
@@ -135,13 +135,113 @@ Many attacks against this form by Bleichenbacher. Standard RSA implementation
 with the PKCS#1v1.5 padding scheme documented above. This is largely falling
 out of favor, being deprecated by NIST by 2023.
 
+### PSS: Probabilistic Signature Scheme
+
+This is a more secure signature scheme standardized as part of PKCS#1v2.1.
+Preferred solution for modern protocols that need to rely on RSA.
+
+### OAEP: Optimal Asymmetric Encryption Padding
+
+This is a more secure signature scheme standardized as part of PKCS#1v2. This
+is the preferred solution for modern protocols that need to rely on RSA.
+
+## DH: Diffie-Hellman
+
+Commonly called a key-exchange algorithm. Given a group, `G`, with generator
+`g` of order `n`, and two parties (A and B):
+
+ - A chooses a value `1 < a < n` and computes `g^a`,
+ - B chooses a value `1 < b < n` and computes `g^b`,
+ - A and B exchange computed values (`g^a` and `g^b`),
+ - A computes `(g^b)^a`, B computes `(g^a)^b`, where
+ - These two values must match due to properties of a cyclic group.
+
+Typically the values aren't used directly but are instead e.g., hashed.
+There's two forms of DH:
+
+ 1. FFC DH: Finite-Field Cryptography DH, based on modular exponentiation mod
+    a prime.
+ 2. ECDH: Elliptic-Curve DH, based on a elliptic-curve group.
+
+A suffix E (Ephemeral) is added to notate when private keys are chosen
+per-session instead of stored and reused across multiple sessions. This is
+commonly used in TLS.
+
 ## Attacks
+
+### Brute Force
+
+Limited utility; attacker attempts to brute-force all possible keys. This is
+notably only a concern on 1-DES, where EFF's descracker is able to search the
+entire key space.
 
 ### Chosen-Plaintext Attack (CPA)
 
 Cryptanalysis attack model in which the attacker is assumed to be able to get
 arbitrary ciphertexts by querying an oracle with a specified
 (attacker-controlled) plaintext.
+
+### Chosen-Ciphertext Attack (CCA)
+
+Cryptanalysis attack model in which the attacker is assumed to be able to get
+arbitrary plaintexts by querying an oracle with a specified
+(attacker-controlled) ciphertext.
+
+### Adaptive Chosen-Plaintext Attack (A-CPA)
+
+Under traditional modeling, CPA and CCA's set of attacker-controlled inputs
+are computed ahead of time. However, under A-CPA, the attacker can submit
+different inputs based on the results past submissions, instead of requiring
+all inputs be known ahead of time.
+
+### Related-Key Attack
+
+Cryptanalysis attack model in which the attacker can observe the operation
+(plaintext, ciphertext pairs) for various keys with a matched pattern. The
+assumption is that while the original key is not known the attacker, other
+the delta (to new keys) can be controlled by the attacker. Thus the oracle
+would be:
+
+    oracle(plaintext, delta):
+        return enc(key xor delta, plaintext)
+
+### Pass the Hash
+
+Attack in which the attacker can authenticate as another user by using the
+_hash_ of the target's password rather than the password itself. In this
+case, the assumption is that the hash is effectively public information
+and thus cannot be used for authentication.
+
+### Preimage Attack
+
+Attack in which, given a hash `v`, the attacker attempts to find a message
+`m` such that `hash(m) == v`.
+
+### Collision Attack
+
+Attack in which the attacker attempts to find any two messages `m_1` and `m_2`
+whereby `hash(m_1) == hash(m_2)`.
+
+Note that collision resistance implies second-preimage resistance but not
+preimage resistance.
+
+#### Chosen-Prefix Collision Attack
+
+Attack in which the attacker attempts to find any two messages `m_1` and `m_2`
+such that, given two prefixes `p_1` and `p_2`, the following holds:
+
+    hash(p_1 || m_1) == hash(p_2 || m_2)
+
+This is useful in attempting to provide collisions in X509 certificates.
+
+### Second-Preimage Attack
+
+Attack in which the attacker attempts to find any message `m_2`, such that
+under a given `m_1` (hashing to `v`), the following holds:
+
+    hash(m_1) == v == hash(m_2)
+
+Note that any second-preimage attack trivially yields a collision attack.
 
 ## X.509
 
@@ -178,4 +278,5 @@ routine we prefer for verification for TLS certificates ion JSS is
 
 ## Interesting Resources
 
-[cryptopals](https://cryptopals.com)
+ - [cryptopals](https://cryptopals.com), online challenges about cryptography.
+ - [Illustrated TLS](https://tls.ulfheim.net/), step-by-step TLS.
