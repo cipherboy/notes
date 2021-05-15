@@ -248,6 +248,39 @@ under a given `m_1` (hashing to `v`), the following holds:
 
 Note that any second-preimage attack trivially yields a collision attack.
 
+### Forward Secrecy
+
+Forward Secrecy (sometimes called Perfect Forward Secrecy) gives the benefit
+of ensuring communication remains secure even in the event of long-term
+key compromise.
+
+For instance, consider TLS: the long-term keys are the server's (and
+optionally, client's) X.509 certificates. The server's private key is only
+used to sign the handshake result (thus, tying the ephemeral handshake to
+a long-lasting identity). No encryption keys are directly protected by
+the server's key pair and thus compromise of these keys results in no further
+information leakage.
+
+However, compromise of the ephemeral keys is obviously sufficient to decrypt
+the protocol communication.
+
+Typically done by adding a DHE or ECDHE (preferred) key exchange into a
+protocol, but care must be done to ensure the exchange has identity
+verification (otherwise, DHE and ECDHE are trivial to MITM).
+
+### Post-Compromise Security
+
+A scheme in which if a passive adversary breaks or recovers a key K in a
+communication scheme, there exists a mechanism to switch keys independent
+of K and derive a new key for future messages. This ensures that future
+messages aren't recoverable by knowledge of this key K.
+
+See also [Post-Compromise Security on IACR](Post-Compromise Security).
+Examples of schemes offering this are:
+
+ - [MLS protocol](https://datatracker.ietf.org/doc/html/draft-ietf-mls-protocol)
+ - [Signal's doubleratchet](https://signal.org/docs/specifications/doubleratchet/)
+
 ## X.509
 
 ### Implementations
@@ -336,6 +369,9 @@ routine we prefer for verification for TLS certificates ion JSS is
    - Updated by [RFC 6818 - Updates to RFC 5280](https://datatracker.ietf.org/doc/html/rfc6818)
    - Updated by [RFC 8398 - Internationalized Email Addresses in X.509 Certificates](https://datatracker.ietf.org/doc/html/rfc8398)
    - Updated by [RFC 8399 - Internationalization Updates to RFC 5280](https://datatracker.ietf.org/doc/html/rfc8399)
+   - Updated by [RFC 4055 - Additional Algorithms for CRL](https://datatracker.ietf.org/doc/html/rfc4055)
+     - Updated by [RFC 5756 - RSAES-OAEP and RSASSA-PSS Algorithm Parameters](https://datatracker.ietf.org/doc/html/rfc5756)
+     - Originally [RFC 3279 - Algorithms and Identifiers for CRL](https://datatracker.ietf.org/doc/html/rfc3279)
    - Originally [RFC 2459](https://datatracker.ietf.org/doc/html/rfc2459) and [RFC 3280](https://datatracker.ietf.org/doc/html/rfc3280)
 
 ### HTTP and Extensions
