@@ -2,10 +2,15 @@
 
 ## Padding
 
+Block ciphers and most asymmetric primitives require some form of padding to
+use.
+
 ### null padding
 
-This is not ideal as it isn't strictly reversible because, if the data ends
+This is not useful as it isn't strictly reversible because, if the data ends
 with one or more null bytes, any extra null bytes can't be correctly detected.
+
+Not aware of any legitimate uses.
 
 ### PKCS#5 and PKCS#7 Padding
 
@@ -17,7 +22,7 @@ on the delta block size:
 This means that in the event of a full-block sized message, a full block is
 appended to the data.
 
-This is reversible but not ideal.
+This typically gets used in block cipher modes such as AES-CBC.
 
 ### 10 + length padding
 
@@ -280,3 +285,65 @@ routine we prefer for verification for TLS certificates ion JSS is
 
  - [cryptopals](https://cryptopals.com), online challenges about cryptography.
  - [Illustrated TLS](https://tls.ulfheim.net/), step-by-step TLS.
+
+## Canonical References
+
+### PKCS#11
+
+ - [PKCS#11 v2.40](http://docs.oasis-open.org/pkcs11/pkcs11-base/v2.40/os/pkcs11-base-v2.40-os.html)
+ - [PKCS#11 v3.0](http://docs.oasis-open.org/pkcs11/pkcs11-base/v3.0/os/pkcs11-base-v3.0-os.html)
+
+### TLS and Extensions
+
+ - [RFC 2246 - TLSv1.0](https://datatracker.ietf.org/doc/html/rfc2246)
+ - [RFC 4346 - TLSv1.1](https://datatracker.ietf.org/doc/html/rfc4346)
+ - [RFC 5246 - TLSv1.2](https://datatracker.ietf.org/doc/html/rfc5246)
+ - [RFC 8446 - TLSv1.3](https://datatracker.ietf.org/doc/html/rfc8446)
+ - [draft-ietf-tls-dtls13](https://datatracker.ietf.org/doc/html/draft-ietf-tls-dtls13)
+ - [RFC 7301 - TLS ALPN (Application-Layer Protocol Negotiation Extension)](https://datatracker.ietf.org/doc/html/rfc7301)
+ - [RFC 8701 - GREASE (Generate Random Extensions and Sustain Extensibility)](https://datatracker.ietf.org/doc/html/rfc8701)
+ - [RFC 6066 - TLS Extensions](https://datatracker.ietf.org/doc/html/rfc6066)
+
+### Certificate Issuance and ACME
+
+ - [RFC 1421 - Privacy Enhancement for Internet Electronic Mail](https://datatracker.ietf.org/doc/html/rfc1421)
+  - Originally [RFC 1113](https://datatracker.ietf.org/doc/html/rfc1113)
+ - [RFC 5652 - CMS (Cryptographic Message Syntax)](https://datatracker.ietf.org/doc/html/rfc5652)
+  - Updated by [RFC 8933 - Updates to CMS for Algorithm Identifier Protection](https://datatracker.ietf.org/doc/html/rfc8933)
+  - Originally [RFC 2630 - CMS](https://datatracker.ietf.org/doc/html/rfc2630)
+   - Updated by [RFC 3211 - Password-based Encryption for CMS](https://datatracker.ietf.org/doc/html/rfc3211)
+   - Updated by [RFC 3369 - CMS](https://datatracker.ietf.org/doc/html/rfc3369)
+   - Updated by [RFC 3852 - CMS](https://datatracker.ietf.org/doc/html/rfc3852)
+    - Updated by [RFC 4852 - CMS Multiple Signer Clarification](https://datatracker.ietf.org/doc/html/rfc4853)
+    - Updated by [RFC 5083 - CMS Authenticated-Enveloped-Data Content Type](https://datatracker.ietf.org/doc/html/rfc5083)
+ - [RFC 5272 - CMC (Certificate Management over CMS)](https://datatracker.ietf.org/doc/html/rfc5272)
+  - Updated by [RFC 6402 - CMC Updates](https://datatracker.ietf.org/doc/html/rfc6402)
+  - Originally [RFC 2797](https://datatracker.ietf.org/doc/html/rfc2797)
+ - [RFC 8555 - ACME (Automatic Certificate Management Environment)](https://datatracker.ietf.org/doc/html/rfc8555)
+ - [RFC 8737 - ACME TLS ALPN Challenge Extension](https://datatracker.ietf.org/doc/html/rfc8737)
+ - [RFC 8738 - ACME IP Identifier Validation Extension](https://datatracker.ietf.org/doc/html/rfc8738)
+ - [RFC 6844 - DNS CAA (Certification Authority Authorization) Resource Record](https://datatracker.ietf.org/doc/html/rfc6844)
+  - Superseded by [RFC 8659 - DNS CAA Resource Record](https://datatracker.ietf.org/doc/html/rfc8659)
+ - [RFC 6962 - Certificate Transparency](https://datatracker.ietf.org/doc/html/rfc6962)
+
+### Certificate Validation
+
+ - [RFC 6960 - OCSP (Online Certificate Status Protocol)](https://datatracker.ietf.org/doc/html/rfc6960)
+  - Updated by [RFC 8954 - OCSP Nonce Extension](https://datatracker.ietf.org/doc/html/rfc8954)
+  - Originally [RFC 2560](https://datatracker.ietf.org/doc/html/rfc2560)
+   - Updated by [RFC 6277 - OCSP Algorithm Agility](https://datatracker.ietf.org/doc/html/rfc6277)
+ - [RFC 5280 - Internet X.509 Public Key Infrastructure Certificate and CRL (Certificate Revocation List) Profile](https://datatracker.ietf.org/doc/html/rfc5280)
+  - Updated by [RFC 6818 - Updates to RFC 5280](https://datatracker.ietf.org/doc/html/rfc6818)
+  - Updated by [RFC 8398 - Internationalized Email Addresses in X.509 Certificates](https://datatracker.ietf.org/doc/html/rfc8398)
+  - Updated by [RFC 8399 - Internationalization Updates to RFC 5280](https://datatracker.ietf.org/doc/html/rfc8399)
+  - Originally [RFC 2459](https://datatracker.ietf.org/doc/html/rfc2459) and [RFC 3280](https://datatracker.ietf.org/doc/html/rfc3280)
+
+### HTTP and Extensions
+
+ - [RFC 1945 - HTTP/1.0](https://datatracker.ietf.org/doc/html/rfc1945)
+ - [RFC 2616 - HTTP/1.1](https://datatracker.ietf.org/doc/html/rfc2616)
+ - [RFC 7231 - HTTP/1.1: Semantics and Content](https://datatracker.ietf.org/doc/html/rfc7231)
+ - [RFC 7540 - HTTP/2](https://datatracker.ietf.org/doc/html/rfc7540)
+ - [draft-ietf-quic-http - HTTP/3](https://datatracker.ietf.org/doc/html/draft-ietf-quic-http)
+ - [RFC 7469 - HPKP: Public Key Pinning for HTTP](https://datatracker.ietf.org/doc/html/rfc7469)
+ - [RFC 6797 - HSTS: HTTP Strict Transport Security](https://datatracker.ietf.org/doc/html/rfc6797)
